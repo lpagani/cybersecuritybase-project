@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Administration page</title>
+</head>
+
+<body>
+
+<h1>Participant list</h1>
+
+<table>
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>Name</th>
+        <th>Address</th>
+        <!-- <th>Password</th> -->
+        <th>Action</th>
+    </tr>
+    </thead>
+
+    <tr th:each="participant : ${participants}">
+        <td th:utext="${participant.name}">Name</td>
+        <td th:utext="${participant.address}">Address</td>
+        <td th:utext="${participant.id}">Id</td>
+        <td style="display: none" th:utext="${participant.password}">Address</td>
+        <td> <a th:href="@{'/remove?id=' + ${participant.id}}"> Remove </a></td>
+    </tr>
+    <tr>
+        <td>
+            <a th:href="@{'/removeAll'}"> Remove all participants </a>
+        </td>
+    </tr>
+
+</table>
+</body>
+</html>
