@@ -56,7 +56,7 @@ The sign up details are not escaped in http://localhost:8080/manage and http://l
 Change the html templates admin.html and manage.html. 
 Replace all instances of “th:utext” to “th:text” to enforce escaping of the user data.
 
-# Vulnerability 6. A10 Insufficient Logging and Monitoring
+## Vulnerability 6. A10 Insufficient Logging and Monitoring
 The application does not produce logs of what happens. It is therefore very difficult to establish that malicious activity has occurred.
 ### Identification
 1. Go to "localhost:8080/form" and add some signups with random names/addresses
@@ -67,7 +67,7 @@ The application does not produce logs of what happens. It is therefore very diff
 ### How to fix:
 Significant log messages should be added throughout the application code.
 
-# Bonus Vulnerability. Cross-Site Request Forgery
+## Bonus Vulnerability. Cross-Site Request Forgery
 CSRF tokens are disabled, therefore all forms are vulnerable to CSRF attacks.
  
 ### Identification
