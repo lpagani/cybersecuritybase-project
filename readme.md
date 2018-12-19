@@ -73,7 +73,7 @@ CSRF tokens are disabled, therefore all forms are vulnerable to CSRF attacks.
 ### Identification
 1. Go to "localhost:8080/form" and add some signups with random names/addresses
 2. Go to "localhost:8080/admin" (you can log in with admin/admin)
-3. Open CSRFTest.html with your browser, which contains the following malicious image: "<img src="http://localhost:8080/removeAll"/>"
+3. Open CSRFTest.html with your browser, which contains the following malicious image: \<img src="http://localhost:8080/removeAll"/>
 5. Go to localhost:8080/admin. All the signups have been removed.
 
 ### How to fix:
