@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <title>Administration page</title>
 </head>
@@ -28,7 +29,9 @@
     </tr>
     <tr>
         <td>
-            <a th:href="@{'/removeAll'}"> Remove all participants </a>
+            <form action="#" th:action="@{/removeAll}" method="POST">
+                <p><input type="submit" value="Remove all participants" /></p>
+            </form>
         </td>
     </tr>
 

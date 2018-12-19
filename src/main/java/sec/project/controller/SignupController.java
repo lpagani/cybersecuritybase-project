@@ -62,7 +62,7 @@ public class SignupController {
         return "admin";
     }
 
-    @RequestMapping(value = "/removeAll", method = RequestMethod.GET)
+    @RequestMapping(value = "/removeAll", method = RequestMethod.POST)
     public String removeAll() {
         // Oh boy this is bad
         signupRepository.deleteAll();
