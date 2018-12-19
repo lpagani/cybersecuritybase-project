@@ -45,7 +45,9 @@ This shall be fixed by enforcing group based authorization policy.
 ## Vulnerability 4. A6:2017 Security Misconfiguration
 Only HTTP is used, passwords are transmitted and stored in plaintext. Session tokens are 1-byte long.
 ### How to fix:
-Enforce HTTPS to avoid transmitting plaintext password. Store only hashed passwords with salt. Use longer session tokens (CyberSecurityBaseProjectApplication -> customize)
+1.Enforce HTTPS to avoid transmitting plaintext password. 
+2.Store only hashed passwords with salt. 
+3.Use longer session tokens (CyberSecurityBaseProjectApplication -> customize)
 
 ## Vulnerability 5. A7:2017 Cross Site Scripting
 The sign up details are not escaped in http://localhost:8080/manage and http://localhost:8080/manage, therefore vulnerable to cross site scripting.
@@ -56,8 +58,7 @@ The sign up details are not escaped in http://localhost:8080/manage and http://l
 2. Click manage
 
 ### How to fix:
-Change the html templates admin.html and manage.html. 
-Replace all instances of “th:utext” to “th:text” to enforce escaping of the user data.
+1. Change the html templates admin.html and manage.html. Replace all instances of “th:utext” to “th:text” to enforce escaping of the user data.
 
 ## Vulnerability 6. A10 Insufficient Logging and Monitoring
 The application does not produce logs of what happens. It is therefore very difficult to establish that malicious activity has occurred.
@@ -84,5 +85,4 @@ CSRF tokens are disabled, therefore all forms are vulnerable to CSRF attacks.
 5. All the signups have been removed.
 
 ### How to fix:
-Enable CSRF protection by removing the line http.csrf().disable() in SecurityConfiguration. 
-Spring Boot will automatically enable CSRF tokens for all forms.
+1.Enable CSRF protection by removing the line http.csrf().disable() in SecurityConfiguration. Spring Boot will automatically enable CSRF tokens for all forms.
