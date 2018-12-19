@@ -2,26 +2,29 @@
 
 This is a Spring-based sign-up management webapp based on the given course example, laden with security vulnerabilities. Some features have been added to the basic example, in order to illustrate better the impact of poor security. The extra functionlities consist in allowing the person who has signed up to remove his/her own enrollment, and to allow the site administrator (admin/admin) to see the entire list and remove anybody from such list. Then, I shot the application full of holes.
 The application can be downloaded from github: https://github.com/lpagani/cybersecuritybase-project
-Clone the project, open it in netbeans / idea and enjoy.
+Clone the project, run it with "mvn spring-boot:run" and enjoy.
 
 I have injected the following six vulnerabilities from the OWASP Top 10 vulnerability list: A2:2017 Broken Authentication, A3:2017 Sensitive Data Exposure, A5:2017 Broken Access Control, A6:2017 Security Misconfiguration, A7:2017 Cross-Site Scripting and last but not least A10:2017 Insufficient Logging and Monitoring as this webapp logs absolutely nothing. 
 As a bonus, this webapp is vulnerable also to Cross Site Request Forgery.
 In the following sections I will describe these vulnerabilities in more detail.
 
 ## Vulnerability 1. A2:2017 Broken Authentication
-The only authentication requirements in this webapp affect the management pages "/admin" and "/manage". It uses basic HTTP authentication. This means that even after closing the page, the session will stay valid until the browser process is terminated. The password ("admin") is hardcoded and in plaintext.
+The only authentication requirements in this webapp affect the management pages "/admin" and "/manage". It uses basic HTTP authentication and has no logout feature. This means that even after closing the page, the session will stay valid until the browser process is terminated. The password ("admin") is hardcoded and in plaintext.
 ### How to reproduce:
 1. Open http://localhost:8080/admin or click the link in the home page. 
 2. Log in with the credentials admin/admin. Close the tab, reopen it. 
 ### How to fix:
-Use a more robust authentication scheme. Use hashed passwords with salt, i.e. by using BCryptPasswordEncoder in the SecurityConfiguration.
+1. Use a more robust authentication scheme. 
+2. Implement logout and a session timeout
+3. Use hashed passwords with salt, i.e. by using BCryptPasswordEncoder in the SecurityConfiguration.
 
 ## Vulnerability 2. A3:2017 Sensitive Data Exposure
-There is no server-side checking of the id parameter which identifies the sign up information, therefore anybody can view any person's information.
+There is no server-side checking of the id parameter which identifies the sign up information, therefore anybody can view any person's information by forced browsing.
 In addition plaintext passwords are visible when inspecting the page source code.
 ### How to reproduce:
-1. Go to "http://localhost:8080/manage?id=X" to view the information of user with id=X (X is an integer).
-2. Right click and inspect the page to reveal the plaintext passwords.
+1. Register at least two users.
+2. Go to "http://localhost:8080/manage?id=X" to view the information of user with id=X (X is an integer).
+3. Right click and inspect the page to reveal the plaintext passwords.
 ### How to fix:
 Avoid using (and trusting) the id parameter, instead use the session information to determine the user access rights.
 Hash passwords, and do not include them in the pages.
@@ -73,9 +76,12 @@ CSRF tokens are disabled, therefore all forms are vulnerable to CSRF attacks.
 ### Identification
 1. Go to "localhost:8080/form" and add some signups with random names/addresses
 2. Go to "localhost:8080/admin" (you can log in with admin/admin)
-3. Open CSRFTest.html with your browser, which contains the following malicious image:
- \<img src="http://localhost:8080/removeAll"/>
-5. Go to localhost:8080/admin. All the signups have been removed.
+3. Open the file CSRFTest.html, found in the root directory of this project, with your browser. The file contains the following malicious button:
+ \<form action="http://localhost:8080/removeAll" method="post">
+    \<input type="submit" value="Click here"/>
+ \</form>
+4. Click on the button.
+5. All the signups have been removed.
 
 ### How to fix:
 Enable CSRF protection by removing the line http.csrf().disable() in SecurityConfiguration. 
